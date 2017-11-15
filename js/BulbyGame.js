@@ -17,10 +17,11 @@ class BulbyGame {
     // The interval id
     this.gameHeart = undefined;
 
+    this.mouse = undefined;
+
     // Register events
     this.c.addEventListener("mousemove", (e) => {
-
-      this.bulby.look({pos: new CartesianVector(e.clientX, e.clientY)});
+      this.mouse = {pos: new CartesianVector(e.clientX, e.clientY)};
     });
   }
 
@@ -36,7 +37,11 @@ class BulbyGame {
   }
 
   logic() {
+
+    this.bulby.look(this.mouse);
+
     this.bulby.logic();
+
   }
 
   draw() {

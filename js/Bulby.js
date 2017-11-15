@@ -15,7 +15,7 @@ class Bulby {
     this.pos = pos.copy();
 
     // The size of Bulby
-    this.r = 60;
+    this.r = 50;
 
     this.velocity = new CartesianVector(0, 0);
 
@@ -23,15 +23,17 @@ class Bulby {
 
     this.maxForce = 1;
 
-    this.steeringBehaviour = new SeekArrivalSteeringBehaviour(this, this.r * 3, this.r * 2);
+    this.steeringBehaviour = new SeekArrivalSteeringBehaviour(this, this.r * 6, this.r * 2);
 
     // The Face object
-    this.face = new Face(this, 20);
+    this.face = new Face(this, this.r / 3);
 
     // Glow object
     this.glow = new Glow(this.r, this.r / 6, this.r / 7 * 2);
 
     this.target = undefined;
+
+    this.lightParticles = [];
   }
 
   look(target) {
@@ -48,16 +50,23 @@ class Bulby {
 
     this.velocity = this.steeringBehaviour.logic();
     this.pos.add(this.velocity);
-    /*
-    if (this.target !== undefined) {
-      if (this.pos.distance(this.target.pos) > this.r + 30) {
-        const directionPolar = this.target.pos.copy().substract(this.pos).toPolar();
-        directionPolar.magnitude(7);
 
-        this.pos.add(directionPolar.toCartesian());
+    for (let i = this.lightParticles.length - 1; i >= 0; --i) {
+      this.lightParticles[i].logic();
+      if (this.lightParticles[i].intensity <= 0) {
+        this.lightParticles.splice(i, 1);
       }
     }
-    */
+
+    if (Math.random() < 0.9999) {
+      this.lightParticles.push(new LightParticle(
+        new PolarVector(
+          Math.random() * 2 * Math.PI, Math.random() * this.r * 1.3
+        ).toCartesian().add(this.pos),
+        1,
+        new CartesianVector(0, -1)
+      ));
+    }
   }
 
   /**
@@ -74,5 +83,9 @@ class Bulby {
 
     // Draw Bulby's sight
     this.face.draw(ctx);
+
+    for (let i = this.lightParticles.length - 1; i >= 0; --i) {
+      this.lightParticles[i].draw(ctx);
+    }
   }
 }
