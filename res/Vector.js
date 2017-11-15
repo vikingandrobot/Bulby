@@ -67,6 +67,14 @@ class CartesianVector {
     const y = this.y - other.y;
     return Math.sqrt(x * x + y * y);
   }
+
+  normalize() {
+    const normalizeVector = toPolar.magnitude(1).toCartesian();
+    this.x = normalizeVector.x;
+    this.y = normalizeVector.y;
+
+    return this;
+  }
 }
 
 /**

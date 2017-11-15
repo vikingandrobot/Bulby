@@ -23,7 +23,7 @@ class Bulby {
 
     this.maxForce = 1;
 
-    this.steeringBehaviour = new SeekSteeringBehaviour(this);
+    this.steeringBehaviour = new SeekArrivalSteeringBehaviour(this, this.r * 3, this.r * 2);
 
     // The Face object
     this.face = new Face(this, 20);
@@ -45,12 +45,9 @@ class Bulby {
   logic() {
     // Look around
     this.face.logic();
-    if (this.target !== undefined) {
-      if (this.pos.distance(this.target.pos) > this.r * 2) {
-        this.velocity = this.steeringBehaviour.logic();
-        this.pos.add(this.velocity);
-      }
-    }
+
+    this.velocity = this.steeringBehaviour.logic();
+    this.pos.add(this.velocity);
     /*
     if (this.target !== undefined) {
       if (this.pos.distance(this.target.pos) > this.r + 30) {
