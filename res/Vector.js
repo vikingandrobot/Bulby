@@ -43,7 +43,10 @@ class CartesianVector {
   */
   toPolar() {
     const magnitude = Math.sqrt(this.x * this.x + this.y * this.y);
-    let angle = Math.acos(this.x / magnitude);
+    let angle = 0;
+    if (magnitude != 0) {
+      angle = Math.acos(this.x / magnitude);
+    }
     if (this.y < 0) {
       angle = -angle;
     }

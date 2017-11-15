@@ -17,11 +17,19 @@ class Bulby {
     // The size of Bulby
     this.r = 60;
 
+    this.velocity = new CartesianVector(0, 0);
+
+    this.maxVelocity = 10;
+
+    this.maxForce = 1;
+
+    this.steeringBehaviour = new SeekSteeringBehaviour(this);
+
     // The Face object
     this.face = new Face(this, 20);
 
     // Glow object
-    this.glow = new Glow(this.r, this.r / 4, this.r / 5 * 2);
+    this.glow = new Glow(this.r, this.r / 6, this.r / 7 * 2);
 
     this.target = undefined;
   }
@@ -37,7 +45,13 @@ class Bulby {
   logic() {
     // Look around
     this.face.logic();
-
+    if (this.target !== undefined) {
+      if (this.pos.distance(this.target.pos) > this.r * 2) {
+        this.velocity = this.steeringBehaviour.logic();
+        this.pos.add(this.velocity);
+      }
+    }
+    /*
     if (this.target !== undefined) {
       if (this.pos.distance(this.target.pos) > this.r + 30) {
         const directionPolar = this.target.pos.copy().substract(this.pos).toPolar();
@@ -46,6 +60,7 @@ class Bulby {
         this.pos.add(directionPolar.toCartesian());
       }
     }
+    */
   }
 
   /**

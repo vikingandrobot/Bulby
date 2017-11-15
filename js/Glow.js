@@ -26,7 +26,7 @@ class Glow {
       this.glow = this.max;
       this.direction *= -1;
     }
-    this.glow += this.direction * 0.5;
+    this.glow += this.direction * 0.4;
 
 
     let opacity = 1 / (this.max - this.min);
