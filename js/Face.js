@@ -54,9 +54,11 @@ class Face {
     const posX = this.origin.pos.x + this.direction.x;
     const posY = this.origin.pos.y + this.direction.y;
 
+    // Draw the eyes
     this.drawEye(ctx, posX - 15, posY);
     this.drawEye(ctx, posX + 15, posY);
 
+    // Draw the mouth
     ctx.beginPath();
     ctx.ellipse(posX, posY + 25, 7, 3, 0, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'black';

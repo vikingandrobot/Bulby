@@ -48,9 +48,24 @@ class Bulby {
     // Look around
     this.face.logic();
 
-    this.velocity = this.steeringBehaviour.logic();
+    // Get the steering from Bulby's steering behaviour
+    const steering = this.steeringBehaviour.logic();
+
+    // Calculate the resulting velocity as a polar vector
+    const velocityPolar =
+      this.velocity
+      .copy()
+      .add(steering)
+      .toPolar();
+
+    // Scale the velocity to the max velocity
+    velocityPolar.magnitude(Math.min(velocityPolar.radius, this.maxVelocity));
+
+    // Update the velocity and position
+    this.velocity = velocityPolar.toCartesian();
     this.pos.add(this.velocity);
 
+    // Apply logic for each of Bulby's particles
     for (let i = this.lightParticles.length - 1; i >= 0; --i) {
       this.lightParticles[i].logic();
       if (this.lightParticles[i].intensity <= 0) {
@@ -58,6 +73,7 @@ class Bulby {
       }
     }
 
+    // Create a new light particle at random times (quite often actually)
     if (Math.random() < 0.9999) {
       this.lightParticles.push(new LightParticle(
         new PolarVector(
@@ -70,11 +86,13 @@ class Bulby {
   }
 
   /**
-    Draw bulby
+    Draw bulby.
   */
   draw(ctx) {
+    // Draw Bulby's glow
     this.glow.draw(ctx, this.pos.x, this.pos.y);
 
+    // Draw Bulby's body
     ctx.beginPath();
     ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'white';
@@ -84,6 +102,7 @@ class Bulby {
     // Draw Bulby's sight
     this.face.draw(ctx);
 
+    // Draw Bulby's particles
     for (let i = this.lightParticles.length - 1; i >= 0; --i) {
       this.lightParticles[i].draw(ctx);
     }

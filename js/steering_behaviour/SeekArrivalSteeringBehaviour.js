@@ -14,6 +14,13 @@ class SeekArrivalSteeringBehaviour {
     this.stopDistance = stopDistance;
   }
 
+  /**
+    Logic of the behaviour. Calculate the steering force needed to apply the
+    Seek and Arrival Steering behaviour.
+
+    return a CartesianVector representing the resulting steering force of the
+    steering behaviour.
+  */
   logic() {
     if (this.parent.target !== undefined) {
 
@@ -44,18 +51,8 @@ class SeekArrivalSteeringBehaviour {
       const steeringPolar = desiredVelocity.substract(this.parent.velocity).toPolar();
       steeringPolar.magnitude(Math.min(steeringPolar.radius, this.parent.maxForce));
 
-      // Resulting velocity in polar vector
-      const velocityPolar =
-        this.parent.velocity
-        .copy()
-        .add(steeringPolar.toCartesian())
-        .toPolar();
-
-      // Scale the velocity to the max velocity
-      velocityPolar.magnitude(Math.min(velocityPolar.radius, this.parent.maxVelocity));
-
-      // Return the max velocity
-      return velocityPolar.toCartesian();
+      // return the steering
+      return steeringPolar.toCartesian();
     }
 
     // Return a 0 vector

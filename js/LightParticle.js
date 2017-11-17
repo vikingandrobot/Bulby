@@ -32,6 +32,9 @@ class LightParticle {
     this.radius = radius;
   }
 
+  /**
+    Apply the logic of the light particle.
+  */
   logic() {
     // Loose intensity
     this.intensity = Math.max(this.intensity - this.intensityLoss, 0);

@@ -62,12 +62,23 @@ class CartesianVector {
     return new CartesianVector(this.x, this.y);
   }
 
+  /**
+    Calculate the distance between to CartesianVector objects. The distance
+    between the two vectors is calculated based on the (x, y) coordinate points.
+    Parameters:
+      other: an other CartesianVector vector
+    return: the distance between the two vectors
+  */
   distance(other) {
     const x = this.x - other.x;
     const y = this.y - other.y;
     return Math.sqrt(x * x + y * y);
   }
 
+  /**
+    Normalize the CartesianVector. After a call to this method, the vector
+    will have a length of 1.
+  */
   normalize() {
     const normalizeVector = toPolar.magnitude(1).toCartesian();
     this.x = normalizeVector.x;
