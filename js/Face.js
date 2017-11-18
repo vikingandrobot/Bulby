@@ -32,18 +32,29 @@ class Face {
   logic() {
     if (this.target !== undefined) {
 
+      // vector to target from origin polar
       const polarTarget =
         this.target.pos
         .copy()
         .substract(this.origin.pos)
         .toPolar();
 
+      // Distance between origin and target
       const distance = polarTarget.radius;
 
-      this.direction =
+      // Wanted direction in cartesian
+      const wantedDirection =
         polarTarget
         .magnitude(this.scaleProperty(distance, 0, this.range * 2, 0, this.range))
         .toCartesian();
+
+      // Direction vector from current direction to wanted direction in polar
+      const deltaDirectionPolar = wantedDirection.substract(this.direction).toPolar();
+      // Cap it to max 5 length
+      deltaDirectionPolar.magnitude(Math.min(deltaDirectionPolar.radius, 5));
+
+      // Add the delta direction vector to the current direction
+      this.direction.add(deltaDirectionPolar.toCartesian())
     }
   }
 
