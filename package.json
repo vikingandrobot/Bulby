@@ -22,7 +22,7 @@
   },
   "jestSonar": {
     "reportPath": "coverage",
-    "reportFile": "coverage-sonar-reporter.xml",
+    "reportFile": "test-reporter.xml",
     "indent": 4
   }
 }
