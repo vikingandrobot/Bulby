@@ -17,6 +17,12 @@
   },
   "homepage": "https://github.com/vikingandrobot/Bulby#readme",
   "devDependencies": {
-    "jest": "^27.4.7"
+    "jest": "^27.4.7",
+    "jest-sonar-reporter": "^2.0.0"
+  },
+  "jestSonar": {
+    "reportPath": "coverage",
+    "reportFile": "coverage-sonar-reporter.xml",
+    "indent": 4
   }
 }

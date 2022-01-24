@@ -7,7 +7,9 @@ const config = {
   ],
   coveragePathIgnorePatterns: [
     "/node_modules/",
-  ]
+  ],
+  testResultsProcessor: "jest-sonar-reporter",
+  coverageReporters: ['lcov']
 }
 
 
