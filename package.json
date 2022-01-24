@@ -1,0 +1,22 @@
+{
+  "name": "bulby",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./js/BulbyGame.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikingandrobot/Bulby.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vikingandrobot/Bulby/issues"
+  },
+  "homepage": "https://github.com/vikingandrobot/Bulby#readme",
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}
