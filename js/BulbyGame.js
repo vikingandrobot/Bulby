@@ -4,15 +4,24 @@
 */
 class BulbyGame {
   constructor(canvasID) {
-
     // Get canvas
     this.c = document.getElementById(canvasID);
     this.ctx = this.c.getContext("2d");
 
     // Create bulby
     this.bulby = new Bulby(
-      new CartesianVector(this.c.width/2, this.c.height/2)
+      new CartesianVector(this.c.width / 2, this.c.height / 2),
+      60
     );
+    this.bulbies = [];
+    for (let i = 0; i < 5; ++i) {
+      this.bulbies.push(
+        new Bulby(
+          new CartesianVector(this.c.width / (i + 1), this.c.height / (i + 1)),
+          60 - 2 * i
+        )
+      );
+    }
 
     // The interval id
     this.gameHeart = undefined;
@@ -24,11 +33,11 @@ class BulbyGame {
     this.circleWaves = [];
 
     // Register events
-    this.c.addEventListener('mousemove', (e) => {
-      this.mouse = {pos: new CartesianVector(e.clientX, e.clientY)};
+    this.c.addEventListener("mousemove", (e) => {
+      this.mouse = { pos: new CartesianVector(e.clientX, e.clientY) };
     });
 
-    this.c.addEventListener('mousedown', (e) => {
+    this.c.addEventListener("mousedown", (e) => {
       this.circleWaves.push(
         new CircleWave(new CartesianVector(e.clientX, e.clientY), 10)
       );
@@ -41,7 +50,7 @@ class BulbyGame {
   start() {
     this.gameHeart = setInterval(() => {
       this.core();
-    }, 1000/50);
+    }, 1000 / 50);
   }
 
   /**
@@ -56,13 +65,17 @@ class BulbyGame {
     Game logic. Calls every appropriate method of maneged objects.
   */
   logic() {
-
     // If there is circle waves, make Bulby look at the oldest
     if (this.circleWaves.length > 0) {
       this.bulby.look(this.circleWaves[0]);
     } else {
       this.bulby.look(this.mouse);
     }
+
+    for (let i = this.bulbies.length - 1; i >= 1; --i) {
+      this.bulbies[i].look(this.bulbies[i - 1]);
+    }
+    this.bulbies[0].look(this.bulby);
 
     // Call logic of each of the circle waves
     for (let i = this.circleWaves.length - 1; i >= 0; --i) {
@@ -74,6 +87,10 @@ class BulbyGame {
 
     // Bulby's logic
     this.bulby.logic();
+
+    for (let i = 0; i < this.bulbies.length; ++i) {
+      this.bulbies[i].logic();
+    }
   }
 
   /**
@@ -93,6 +110,10 @@ class BulbyGame {
 
     // Draw Bulby
     this.bulby.draw(this.ctx);
+
+    for (let i = 0; i < this.bulbies.length; ++i) {
+      this.bulbies[i].draw(this.ctx);
+    }
   }
 
   /**

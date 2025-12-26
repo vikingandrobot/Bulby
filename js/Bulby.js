@@ -3,19 +3,18 @@
   visualisation.
 */
 class Bulby {
-
   /**
     Constructor to create a new Bulby.
 
     Parameters:
       pos: CartesianVector describing its position
   */
-  constructor(pos) {
+  constructor(pos, size) {
     // The position of Bulby
     this.pos = pos.copy();
 
     // The size of Bulby
-    this.r = 50;
+    this.r = size == null ? 50 : size;
 
     this.velocity = new CartesianVector(0, 0);
 
@@ -23,13 +22,17 @@ class Bulby {
 
     this.maxForce = 1;
 
-    this.steeringBehaviour = new SeekArrivalSteeringBehaviour(this, this.r * 6, this.r * 2);
+    this.steeringBehaviour = new SeekArrivalSteeringBehaviour(
+      this,
+      this.r * 6,
+      this.r * 2
+    );
 
     // The Face object
     this.face = new Face(this, this.r / 3);
 
     // Glow object
-    this.glow = new Glow(this.r, this.r / 6, this.r / 7 * 2);
+    this.glow = new Glow(this.r, this.r / 6, (this.r / 7) * 2);
 
     this.target = undefined;
 
@@ -52,11 +55,7 @@ class Bulby {
     const steering = this.steeringBehaviour.logic();
 
     // Calculate the resulting velocity as a polar vector
-    const velocityPolar =
-      this.velocity
-      .copy()
-      .add(steering)
-      .toPolar();
+    const velocityPolar = this.velocity.copy().add(steering).toPolar();
 
     // Scale the velocity to the max velocity
     velocityPolar.magnitude(Math.min(velocityPolar.radius, this.maxVelocity));
@@ -75,13 +74,18 @@ class Bulby {
 
     // Create a new light particle at random times (quite often actually)
     if (Math.random() < 0.9999) {
-      this.lightParticles.push(new LightParticle(
-        new PolarVector(
-          Math.random() * 2 * Math.PI, Math.random() * this.r * 1.3
-        ).toCartesian().add(this.pos),
-        1,
-        new CartesianVector(0, -1)
-      ));
+      this.lightParticles.push(
+        new LightParticle(
+          new PolarVector(
+            Math.random() * 2 * Math.PI,
+            Math.random() * this.r * 1.3
+          )
+            .toCartesian()
+            .add(this.pos),
+          1,
+          new CartesianVector(0, -1)
+        )
+      );
     }
   }
 
@@ -95,7 +99,7 @@ class Bulby {
     // Draw Bulby's body
     ctx.beginPath();
     ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "white";
     ctx.fill();
     ctx.closePath();
 
