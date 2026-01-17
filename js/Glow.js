@@ -58,7 +58,7 @@ class Glow {
     for (let i = this.r; i < this.glow; ++i) {
       ctx.beginPath();
       ctx.arc(x, y, i, 0, Math.PI * 2, false);
-      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+      ctx.fillStyle = `rgba(50, 250, 250, ${opacity})`;
       ctx.fill();
       ctx.closePath();
     }
